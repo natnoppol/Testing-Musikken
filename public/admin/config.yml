@@ -1,27 +1,44 @@
 backend:
   name: git-gateway
-  branch: main  # or your default branch
+  branch: master 
 
-media_folder: "public/uploads"  # The folder where media files are uploaded
-public_folder: "/uploads"  # Public path to access the media files
+media_folder: "public/uploads"  # The folder for media files
+public_folder: "/uploads"       # The public URL path for media files
 
 collections:
+  # Blog posts collection
   - name: "blog"
     label: "Blog Posts"
-    folder: "content/blog"
-    create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    folder: "content/blog"       # Folder to store blog posts in your project
+    create: true                 # Allow the creation of new posts
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # URL slug format for posts
     fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Date", name: "date", widget: "datetime" }
-      - { label: "Body", name: "body", widget: "markdown" }
-      - { label: "Featured Image", name: "featured_image", widget: "image" }
-  
+      - { label: "Title", name: "title", widget: "string" }    # Blog post title
+      - { label: "Date", name: "date", widget: "datetime" }    # Blog post date
+      - { label: "Body", name: "body", widget: "markdown" }    # Body content using markdown
+      - { label: "Categories", name: "categories", widget: "list", field: { label: "Category", name: "category", widget: "string" }} # Blog categories
+      - { label: "Featured Image", name: "featured_image", widget: "image" }  # Featured image
+
+  # Pages collection
   - name: "pages"
     label: "Pages"
-    folder: "content/pages"
-    create: true
-    slug: "{{slug}}"
+    folder: "content/pages"      # Folder to store pages in your project
+    create: true                 # Allow the creation of new pages
+    slug: "{{slug}}"             # URL slug format for pages
     fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Title", name: "title", widget: "string" }    # Page title
+      - { label: "Body", name: "body", widget: "markdown" }    # Body content using markdown
+      - { label: "Meta Description", name: "meta_description", widget: "string" } # SEO meta description for the page
+      - { label: "Featured Image", name: "featured_image", widget: "image" }  # Featured image for the page
+
+  # Media collection (to manage images, videos, and other media)
+  - name: "media"
+    label: "Media"
+    folder: "public/media"         # Folder where media files are stored
+    create: false                  # Do not allow the creation of new media entries via CMS
+    media_folder: "public/media"    # Media folder for uploading files
+    public_folder: "/media"         # Public URL for accessing the media
+    fields:
+      - { label: "Title", name: "title", widget: "string" }   # Title for the media item
+      - { label: "File", name: "file", widget: "file" }       # File upload for the media item
+      - { label: "Description", name: "description", widget: "text" }  # Description of the media item
